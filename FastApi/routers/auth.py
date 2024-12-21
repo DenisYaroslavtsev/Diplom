@@ -31,7 +31,7 @@ async def register_user(db: Annotated[Session, Depends(get_db)], user: UserRespo
         # raise HTTPException(status_code=400, detail="Данный логин уже занят!")
         return JSONResponse(status_code=400, content={"error": "Данный логин уже занят"})
     is_existence_user = db.query(User).filter(User.email == user.email).first()
-    if in_existence_user == user.email:
+    if is_existence_user == user.email:
         # raise HTTPException(status_code=400, detail="Данный email уже занят!")
         return JSONResponse(status_code=400, content={"error": "Данный email уже занят"})
 
