@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, status, HTTPException, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from sqlalchemy.orm import Session
 from FastApi.backend.db_depends import get_db
-from FastApi.shemas import UserResponse, CreateUser, DataModelIn, DataModelOut
+from FastApi.shemas import UserResponse, CreateUser
 from typing import Annotated
 from passlib.context import CryptContext
 from FastApi.models.user import User
@@ -30,7 +30,7 @@ async def register_user(db: Annotated[Session, Depends(get_db)], user: UserRespo
     if existing_user == user.username:
         # raise HTTPException(status_code=400, detail="Данный логин уже занят!")
         return JSONResponse(status_code=400, content={"error": "Данный логин уже занят"})
-    in_existence_user = db.query(User).filter(User.email == user.email).first()
+    is_existence_user = db.query(User).filter(User.email == user.email).first()
     if in_existence_user == user.email:
         # raise HTTPException(status_code=400, detail="Данный email уже занят!")
         return JSONResponse(status_code=400, content={"error": "Данный email уже занят"})
