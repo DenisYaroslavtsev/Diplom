@@ -16,5 +16,9 @@
         <button type="submit">Войти</button>
     </form>
     <p>Нет аккаунта? <a href="/auth/register">Зарегистрироваться</a></p>
+
+    {% if error %}
+        <div style="color: red;">{{ error }}</div>
+    {% endif %}
 </body>
 </html>

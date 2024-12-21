@@ -12,48 +12,86 @@ from fastapi.responses import JSONResponse
 templates = Jinja2Templates(directory="FastApi/templates")
 router = APIRouter(prefix='/auth', tags=['Auth'])
 
-
 pass_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
+# @router.post('/register')
+# async def register_user(request: Request, db: Annotated[Session, Depends(get_db)], user: UserResponse):
+#     form_data = await request.form()
+#     username = form_data.get('username')
+#     password = form_data.get('password')
+#     repeat_password = form_data.get('repeat_password')
+#     email = form_data.get('email')
+#     birth_date = form_data.get('birth_date')
+#     if username == password:
+#         # raise HTTPException(status_code=400, detail="Пароль не должен совпадать с логином!")
+#         return JSONResponse(status_code=400,
+#                             content={"request": request, "error": "Пароль не должен совпадать с логином"})
+#
+#     if password != repeat_password:
+#         # raise HTTPException(status_code=400, detail="Пароли не совпадают!")
+#         return JSONResponse(status_code=400, content={"request": request, "error": "Пароли не совпадают"})
+#
+#     existing_user = db.query(User).filter(User.username == username).first()
+#     if existing_user == user.username:
+#         # raise HTTPException(status_code=400, detail="Данный логин уже занят!")
+#         return JSONResponse(status_code=400, content={"request": request, "error": "Данный логин уже занят"})
+#     is_existence_user = db.query(User).filter(User.email == email).first()
+#     if is_existence_user == user.email:
+#         # raise HTTPException(status_code=400, detail="Данный email уже занят!")
+#         return JSONResponse(status_code=400, content={"request": request, "error": "Данный email уже занят"})
+#
+#     hashed_password = pass_context.hash(password)
+#     db_user = User(username=username, password=hashed_password, email=email, birth_day=birth_date)
+#     db.add(db_user)
+#     db.commit()
+#     db.refresh(db_user)
+#
+#     return RedirectResponse(url="/auth/login", status_code=303)
+
 @router.post('/register')
-async def register_user(db: Annotated[Session, Depends(get_db)], user: UserResponse):
-    if user.username == user.password:
-        # raise HTTPException(status_code=400, detail="Пароль не должен совпадать с логином!")
-        return JSONResponse(status_code=400, content={"error": "Пароль не должен совпадать с логином"})
+async def register_user(request: Request, db: Annotated[Session, Depends(get_db)]):
+    form_data = await request.form()
+    username = form_data.get('username')
+    password = form_data.get('password')
+    repeat_password = form_data.get('repeat_password')
+    email = form_data.get('email')
+    birth_date = form_data.get('birth_date')
 
-    if user.password != user.repeat_password:
-        # raise HTTPException(status_code=400, detail="Пароли не совпадают!")
-        return JSONResponse(status_code=400, content={"error": "Пароли не совпадают"})
+    # Проверки
+    if password == username:
+        return templates.TemplateResponse("register.html", {"request": request, "error": "Пароль не должен совпадать с логином!"})
 
-    existing_user = db.query(User).filter(User.username == user.username).first()
-    if existing_user == user.username:
-        # raise HTTPException(status_code=400, detail="Данный логин уже занят!")
-        return JSONResponse(status_code=400, content={"error": "Данный логин уже занят"})
-    is_existence_user = db.query(User).filter(User.email == user.email).first()
-    if is_existence_user == user.email:
-        # raise HTTPException(status_code=400, detail="Данный email уже занят!")
-        return JSONResponse(status_code=400, content={"error": "Данный email уже занят"})
+    if password != repeat_password:
+        return templates.TemplateResponse("register.html", {"request": request, "error": "Пароли не совпадают!"})
 
-    hashed_password = pass_context.hash(user.password)
-    db_user = User(username=user.username, password=hashed_password, birth_day=user.birth_date)
+    existing_user = db.query(User).filter(User.username == username).first()
+    if existing_user:
+        return templates.TemplateResponse("register.html", {"request": request, "error": "Данный логин уже занят!"})
+
+    is_existence_user = db.query(User).filter(User.email == email).first()
+    if is_existence_user:
+        return templates.TemplateResponse("register.html", {"request": request, "error": "Данный email уже занят!"})
+
+    # Хеширование пароля и создание пользователя
+    hashed_password = pass_context.hash(password)
+    db_user = User(username=username, password=hashed_password, email=email, birth_day=birth_date)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
-    # contex = {'username': user.username,
-    #           'password': hashed_password,
-    #           'email': user.email,
-    #           'birth_date': user.birth_date}
-    # print(contex)
 
-    return RedirectResponse(url="/auth/login")
+    # Перенаправление на страницу логина
+    return RedirectResponse(url="/auth/login", status_code=303)
 
 
 @router.post('/login')
-async def login_user(db: Annotated[Session, Depends(get_db)], user: CreateUser):
-    db_user = db.query(User).filter(User.email == user.email).first()
-    if not db_user or not pass_context.verify(user.password, db_user.password):
-        raise HTTPException(status_code=400, detail="Неправильно введён email или пароль")
+async def login_user(request: Request, db: Annotated[Session, Depends(get_db)], user: CreateUser):
+    form_data = await request.form()
+    email = form_data.get('email')
+    password = form_data.get('password')
+    db_user = db.query(User).filter(User.email == email).first()
+    if not db_user or not pass_context.verify(password, db_user.password):
+        return templates.TemplateResponse("login.html", {"request": request, "error": "Неправильно введён email или пароль!"})
 
     return RedirectResponse(url='/upload', status_code=303)
 
@@ -66,5 +104,3 @@ async def get_register_page(request: Request) -> HTMLResponse:
 @router.get('/login')
 async def get_login_page(request: Request) -> HTMLResponse:
     return templates.TemplateResponse("login.html", {"request": request})
-
-
