@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Выбор книги для чтения</title>
+</head>
+<body>
+    <p align="center">
+        <a href="/war_and_peace">
+        <img src="{{ url_for('static', filename='images/scale_1200.jpg') }}" class="image" /></a>
+        <a href="/game_of_the_thrones">
+        <img src="{{ url_for('static', filename='images/_igra-prestolov.jpg') }}" class="image" />
+        </a>
+    </p>
+    <style>
+    .image { width: 200px;
+             height: 300px; }
+    </style>
+</body>
+</html>

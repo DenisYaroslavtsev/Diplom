@@ -5,6 +5,7 @@ from Flask.backend.db import get_db
 from Flask.models.models import User
 from schemas import UserResponse, CreateUser
 from flask_sqlalchemy import SQLAlchemy
+from flask_paginate import Pagination
 
 app = Flask(__name__)
 
@@ -62,7 +63,7 @@ def register_user():
 def login_user():
     if request.method == 'POST':
         user_data = CreateUser(**request.form)
-        db_session: Session = next(get_db())
+        db_session: Session = get_db()
         db_user = db_session.query(User).filter_by(email=user_data.email).first()
 
         if not db_user or not check_password_hash(db_user.password, user_data.password):
@@ -70,10 +71,63 @@ def login_user():
             return redirect(url_for('login_user'))
 
         flash(f"Добро пожаловать {db_user.username}", "success")
-        return redirect(url_for('some_protected_route'))
+        return redirect(url_for('choosing_a_book'))  # Перенаправление на страницу выбора книг
 
-    return render_template('login.html')
+    return render_template('login.html')  # Возврат формы входа при GET-запросе
+
+
+BOOK_FILE1 = "L.Tolstoi_tom_1.txt"
+BOOK_FILE2 = "igra-prestolov-248812.txt"
+
+
+def book_lev_tolskoi():
+    with open(BOOK_FILE1, 'r') as file:
+        return file.readlines()
+
+
+def book_song_of_ice_and_fire():
+    with open(BOOK_FILE2, 'r') as file:
+        return file.readlines()
+
+
+@app.route("/war_and_peace", methods=["GET", "POST"])
+def reed_book1():
+    book_lines = book_lev_tolskoi()
+    total_lines = len(book_lines)
+    page = request.args.get('page', type=int, default=1)
+    per_page = 38
+    start = (page - 1) * per_page
+    end = start + per_page
+
+    lines_to_display = book_lines[start:end]
+
+    pagination = Pagination(page=page, total=total_lines, per_page=per_page, css_framework='bootstrap4')
+
+    return render_template('L.Tolstoi.html', lines=lines_to_display,
+                           pagination=pagination, current_page=page)
+
+
+@app.route('/game_of_the_thrones', methods=["GET", "POST"])
+def reed_book2():
+    book_lines = book_song_of_ice_and_fire()
+    total_lines = len(book_lines)
+    page = request.args.get('page', type=int, default=1)
+    per_page = 38
+    start = (page - 1) * per_page
+    end = start + per_page
+
+    lines_to_display = book_lines[start:end]
+
+    pagination = Pagination(page=page, total=total_lines, per_page=per_page, css_framework='bootstrap4')
+
+    return render_template('game_of_the_thrones.html', lines=lines_to_display,
+                           pagination=pagination, current_page=page)
+
+
+@app.route('/books')
+def choosing_a_book():
+    return render_template('books.html')
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

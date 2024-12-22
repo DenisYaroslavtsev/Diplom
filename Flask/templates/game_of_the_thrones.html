@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Песнь льда и огня. Книга 1</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        pre {
+            word-wrap: break-word;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container "></div>
+        <h1>Цикл Песни Льда и Пламени. Книга 1 - Игра престолов</h1>
+        <div>
+            {% for line in lines %}
+                <p>{{ line }}</p>
+            {% endfor %}
+        </div>
+
+        <div class="pagination">
+            <span>Страница {{ current_page }}</span>
+            {{ pagination.links }}
+        </div>
+    </div>
+</body>
+</html>

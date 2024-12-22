@@ -9,4 +9,3 @@ class User(Base):
     password = Column(String)
     email = Column(String, unique=True, nullable=False)
     birth_day = Column(Date)
-
