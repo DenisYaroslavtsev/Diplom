@@ -90,7 +90,7 @@ def book_song_of_ice_and_fire():
         return file.readlines()
 
 
-@app.route("/war_and_peace", methods=["GET", "POST"])
+@app.route("/war_and_peace", methods=["POST"])
 def reed_book1():
     book_lines = book_lev_tolskoi()
     total_lines = len(book_lines)
@@ -107,7 +107,7 @@ def reed_book1():
                            pagination=pagination, current_page=page)
 
 
-@app.route('/game_of_the_thrones', methods=["GET", "POST"])
+@app.route('/game_of_the_thrones', methods=["POST"])
 def reed_book2():
     book_lines = book_song_of_ice_and_fire()
     total_lines = len(book_lines)
@@ -124,7 +124,7 @@ def reed_book2():
                            pagination=pagination, current_page=page)
 
 
-@app.route('/books')
+@app.route('/books', methods=['POST'])
 def choosing_a_book():
     return render_template('books.html')
 
