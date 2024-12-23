@@ -6,6 +6,8 @@ from typing import Annotated
 from passlib.context import CryptContext
 from FastApi.models.user import User
 from fastapi.templating import Jinja2Templates
+from datetime import date
+from FastApi.routers.book import *
 
 templates = Jinja2Templates(directory="FastApi/templates")
 router = APIRouter(prefix='/auth', tags=['Auth'])
@@ -21,6 +23,7 @@ async def register_user(request: Request, db: Annotated[Session, Depends(get_db)
     repeat_password = form_data.get('repeat_password')
     email = form_data.get('email')
     birth_date = form_data.get('birth_date')
+    birth_date = date.fromisoformat(birth_date)
 
     if password == username:
         return templates.TemplateResponse("register.html",
@@ -56,7 +59,7 @@ async def login_user(request: Request, db: Annotated[Session, Depends(get_db)]):
         return templates.TemplateResponse("login.html",
                                           {"request": request, "error": "Неправильно введён email или пароль!"})
 
-    return RedirectResponse(url='/books', status_code=303)
+    return RedirectResponse(url="/books/select_book", status_code=303)
 
 
 @router.get('/register')

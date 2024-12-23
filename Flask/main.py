@@ -101,7 +101,7 @@ def reed_book1():
 
     lines_to_display = book_lines[start:end]
 
-    pagination = Pagination(page=page, total=total_lines, per_page=per_page, css_framework='bootstrap4')
+    pagination = Pagination(page=page, total=total_lines, per_page=per_page)
 
     return render_template('L.Tolstoi.html', lines=lines_to_display,
                            pagination=pagination, current_page=page)
@@ -118,7 +118,7 @@ def reed_book2():
 
     lines_to_display = book_lines[start:end]
 
-    pagination = Pagination(page=page, total=total_lines, per_page=per_page, css_framework='bootstrap4')
+    pagination = Pagination(page=page, total=total_lines, per_page=per_page)
 
     return render_template('game_of_the_thrones.html', lines=lines_to_display,
                            pagination=pagination, current_page=page)
