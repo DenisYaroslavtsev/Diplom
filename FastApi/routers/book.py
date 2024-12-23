@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
-from fastapi_pagination import add_pagination, Page
+from fastapi_pagination import Page
 import os
 
 router = APIRouter(prefix='/books', tags=['books'])
