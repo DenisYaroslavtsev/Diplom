@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Вход</title>
     <link rel="stylesheet" type="text/css" href="/static/auth.css">
+    <link rel="stylesheet" type="text/css" href="/static/error.css">
 </head>
 <body>
     <form action="/auth/login" method="post">
@@ -18,9 +19,8 @@
             <p>Нет аккаунта? <a href="/auth/register">Зарегистрироваться</a></p>
         </div>
     </form>
-
     {% if error %}
-        <div style="color: red;">{{ error }}</div>
+        <div class="error"> {{ error }} </div>
     {% endif %}
 </body>
 </html>

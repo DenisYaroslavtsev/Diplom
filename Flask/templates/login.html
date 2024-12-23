@@ -4,17 +4,9 @@
     <meta charset="UTF-8">
     <title>Вход</title>
     <link rel="stylesheet" href="{{ url_for('static', filename= 'auth.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'error.css') }}">
 </head>
 <body>
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul>
-            {% for message in messages %}
-                {{ message }}
-            {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
     <form action="/login" method="post">
         <div class="container">
             <label for="email">Email:</label>
@@ -27,5 +19,12 @@
             <p>Нет аккаунта? <a href="/">Зарегистрироваться</a></p>
         </div>
     </form>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="error"> {{ message }} </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 </body>
 </html>
