@@ -187,13 +187,61 @@ Django следует архитектуре Model-View-Template (MVT), FastAPI 
   
 ## Django:
 
-![джанго](https://github.com/user-attachments/assets/179d036e-b8e8-4a12-a48e-c24b61ebe28d)
+![django](https://github.com/user-attachments/assets/d8d08c8b-d635-4b78-a42e-fc4fa4ffa1b2)
 
 ## FastApi
 
-![фастапи](https://github.com/user-attachments/assets/d1968df4-78bb-48fa-9430-2ac58a940b6d)
+![FastApi](https://github.com/user-attachments/assets/606a0251-251a-4b23-8441-6a45ba3ea4b8)
+![Fastapi2](https://github.com/user-attachments/assets/c567ca27-33c8-46b4-b362-96b5e5024934)
 
 ## Flask
 
-![фласк](https://github.com/user-attachments/assets/ad8355c3-0b5a-445c-84b2-7b5a0e543715)
+![flask](https://github.com/user-attachments/assets/9912d2d2-a91c-43c6-a10e-6b9004208e63)
+</details>
+
+<details><summary><b>Запуск проекта</b></summary>
+
+## Запуска проекта Django
+
+Откройте териминал и введите в нём команду: 
+
+` cd myapp `
+
+После ввода данной команды, вы попадёте в рабочую директорию проекта "myapp"
+
+Для запуска проекта так же в терминале прописываем команду:
+
+`python manage.py runserver`
+
+После чего переходим по запущенному локальному серверу(http://127.0.0.1:8000/):
+
+![runserver](https://github.com/user-attachments/assets/06474ff3-1e4f-4c71-96e0-c7f077301cb3)
+
+Для остановки работы сервера в терминале нажмите сочетание клавишь `Ctrl + C`
+
+## Запуск проекта FastApi
+
+Для начало нужно вернуться в исходный каталок(если изначально запускали проект на Django), для этого в терминале прописывает команду:
+
+`cd ..`
+
+Чтобы запустить приложение в терминале прописываем следующую команду:
+
+`python -m uvicorn FastApi.main:app`
+
+![run fastapi](https://github.com/user-attachments/assets/a389d463-0a39-44bc-9761-ded03071ea98)
+
+Для остановки работы сервера в терминале нажмите сочетание клавишь `Ctrl + C`
+
+## Запуск проекта Flask
+
+Перейдите в проект Flask. Далее найдите файл `main.py` и откройте его. Для запуска приложение, если вы используете Pycharm можете нажать сочетание клавишь `Shift + F10` или воспользоваться значком запуска, который находится на верху в правой области:
+
+![значок запуска](https://github.com/user-attachments/assets/00d4a6be-99c8-44f9-912c-65ce4e7fc7dd)
+
+Для остановки работы сервера можно использовать комбинацию клавишь `Ctrl + F2` или же воспользоваться значком остановки работы приложения:
+
+![стоп](https://github.com/user-attachments/assets/58df43f7-07c0-4ee2-8f7e-2a9bd260c541)
+
+</details>
       
