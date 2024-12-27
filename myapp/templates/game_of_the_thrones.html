@@ -24,7 +24,11 @@
 
     <ul class="pagination">
         {% if context.has_previous %}
-        <a href="?page={{ context.previous_page_number }}">Предыдущая</a>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ context.previous_page_number }}">
+                    <span>&laquo;</span>
+                </a>
+            </li>
         {% endif %}
         {% if context.has_next %}
             {% with start_page=context.number|add:-2|slice:":0" end_page=context.number|add:2 %}
@@ -40,7 +44,10 @@
                     {% endif %}
                 {% endfor %}
             {% endwith %}
-        <a href="?page={{ context.next_page_number }}">Следующая</a>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ context.next_page_number }}">
+                    <span>&raquo;</span></a>
+            </li>
         {% endif %}
     </ul>
     <p><span>Страница {{ context.number }} из {{ context.paginator.num_pages }}</span></p>

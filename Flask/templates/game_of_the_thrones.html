@@ -13,19 +13,15 @@
 </head>
 <body>
     <form method="POST">
-    <div class="container "></div>
-        <h1>Цикл Песни Льда и Пламени. Книга 1 - Игра престолов</h1>
-        <div>
-            {% for line in lines %}
-                <p>{{ line }}</p>
-            {% endfor %}
+        <div class="container ">
+            <h1>Цикл Песни Льда и Пламени. Книга 1 - Игра престолов</h1>
+                {% for line in lines %}
+                    <p>{{ line }}</p>
+                {% endfor %}
         </div>
-
-        <div class="pagination">
-            <span>Страница {{ current_page }}</span>
-            {{ pagination.links }}
-        </div>
-    </div>
-        </form>
+            <div class="pagination">
+                {{ pagination.links }}
+            </div>
+    </form>
 </body>
 </html>

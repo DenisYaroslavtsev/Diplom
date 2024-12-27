@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Чтение книги</title>
+    <title>Лев Николаевич Толстой "Война и мир"</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         pre {
@@ -12,18 +12,15 @@
     </style>
 </head>
 <body>
-        <div class="container "></div>
+        <div class="container ">
         <h1>Л.Н.Толстой "Война и Мир"</h1>
-        <div>
             {% for line in lines %}
                 <p>{{ line }}</p>
             {% endfor %}
         </div>
 
         <div class="pagination">
-            <span>Страница {{ current_page }}</span>
             {{ pagination.links }}
         </div>
-    </div>
 </body>
 </html>
