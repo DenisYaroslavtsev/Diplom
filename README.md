@@ -160,7 +160,7 @@ Django следует архитектуре Model-View-Template (MVT), FastAPI 
 
   FastAPI продемонстрировал наилучшие результаты в производительности благодаря асинхронной обработке запросов. Flask и Django, будучи синхронными, работают медленнее в сценариях с высокой нагрузкой
   ![8abd3c976a2047e6d6975c5241882dee](https://github.com/user-attachments/assets/8379a307-ce44-4e95-bc3f-4d42f24d1976)
-  (Данные взяты с сайте https://www.techempower.com)
+  (Данные взяты с сайта https://www.techempower.com)
 
 * Гибкость и расширяйомсть:
 
