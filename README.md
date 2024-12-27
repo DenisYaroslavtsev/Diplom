@@ -184,6 +184,16 @@ Django следует архитектуре Model-View-Template (MVT), FastAPI 
 </details>
 
 <details><summary><b>Структура проекта</b></summary>
+  
 ## Django:
 
+![джанго](https://github.com/user-attachments/assets/179d036e-b8e8-4a12-a48e-c24b61ebe28d)
+
+## FastApi
+
+![фастапи](https://github.com/user-attachments/assets/d1968df4-78bb-48fa-9430-2ac58a940b6d)
+
+## Flask
+
+![фласк](https://github.com/user-attachments/assets/ad8355c3-0b5a-445c-84b2-7b5a0e543715)
       
