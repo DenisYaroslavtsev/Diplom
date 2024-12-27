@@ -181,6 +181,9 @@ Django следует архитектуре Model-View-Template (MVT), FastAPI 
 * [django-project.com](https://www.djangoproject.com/)
 * [fastapi.tiangolo.com](https://fastapi.tiangolo.com/)
 * [flask.palletsprojects.com](https://flask.palletsprojects.com/en/stable/)
+* [https://www.kevsrobots.com/learn/fastapi/06_implementing_registration_and_login.html](https://fastapi-users.github.io/fastapi-users/10.2/)
+* [flask-paginate](https://flask-paginate.readthedocs.io/en/master/index.html)
+* https://docs.djangoproject.com/en/5.1/topics/auth/default/
 </details>
 
 <details><summary><b>Структура проекта</b></summary>
