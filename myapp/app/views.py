@@ -8,7 +8,6 @@ from django.contrib.auth import logout
 import os
 
 
-# Create your views here.
 def register_user(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
