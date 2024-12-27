@@ -1,0 +1,48 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>"Война и Мир" Лев Николаевич Толстой-</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/pag.css'%}" type="text/css">
+    <style>
+        pre {
+            word-wrap: break-word;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>Л.Н.Толстой "Война и Мир"</h1>
+    <div>
+        {% for line in context %}
+            <p>{{ line }}</p>
+        {% endfor %}
+    </div>
+
+    <ul class="pagination">
+        {% if context.has_previous %}
+        <a href="?page={{ context.previous_page_number }}">Предыдущая</a>
+        {% endif %}
+        {% if context.has_next %}
+            {% with start_page=context.number|add:-2|slice:":0" end_page=context.number|add:2 %}
+                {% for i in context.paginator.page_range %}
+                    {% if i >= start_page and i <= end_page %}
+                        {% if context.number == i %}
+                            <li class="page-current">{{ i }}</li>
+                        {% else %}
+                            <li class="page-items">
+                            <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                        </li>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endwith %}
+        <a href="?page={{ context.next_page_number }}">Следующая</a>
+        {% endif %}
+    </ul>
+    <p><span>Страница {{ context.number }} из {{ context.paginator.num_pages }}</span></p>
+</body>
+</html>

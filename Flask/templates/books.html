@@ -5,6 +5,7 @@
     <title>Выбор книги для чтения</title>
 </head>
 <body>
+    <form method="POST">
     <p align="center">
         <a href="/war_and_peace">
         <img src="{{ url_for('static', filename='images/scale_1200.jpg') }}" class="image" /></a>
@@ -12,6 +13,7 @@
         <img src="{{ url_for('static', filename='images/_igra-prestolov.jpg') }}" class="image" />
         </a>
     </p>
+    </form>
     <style>
     .image { width: 200px;
              height: 300px; }

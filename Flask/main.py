@@ -70,10 +70,9 @@ def login_user():
             flash("Неправильно введён email или пароль", "error")
             return redirect(url_for('login_user'))
 
-        flash(f"Добро пожаловать {db_user.username}", "success")
-        return redirect(url_for('choosing_a_book'))  # Перенаправление на страницу выбора книг
+        return redirect(url_for('choosing_a_book'))
 
-    return render_template('login.html')  # Возврат формы входа при GET-запросе
+    return render_template('login.html')
 
 
 BOOK_FILE1 = "L.Tolstoi_tom_1.txt"
@@ -90,7 +89,7 @@ def book_song_of_ice_and_fire():
         return file.readlines()
 
 
-@app.route("/war_and_peace", methods=["POST"])
+@app.route("/war_and_peace", methods=["GET", "POST"])
 def reed_book1():
     book_lines = book_lev_tolskoi()
     total_lines = len(book_lines)
@@ -107,7 +106,7 @@ def reed_book1():
                            pagination=pagination, current_page=page)
 
 
-@app.route('/game_of_the_thrones', methods=["POST"])
+@app.route('/game_of_the_thrones', methods=["GET", "POST"])
 def reed_book2():
     book_lines = book_song_of_ice_and_fire()
     total_lines = len(book_lines)
@@ -124,7 +123,7 @@ def reed_book2():
                            pagination=pagination, current_page=page)
 
 
-@app.route('/books', methods=['POST'])
+@app.route('/books', methods=['GET', 'POST'])
 def choosing_a_book():
     return render_template('books.html')
 
