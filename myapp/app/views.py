@@ -3,6 +3,8 @@ from django.contrib.auth import login, authenticate
 from .forms import SignUpForm, LoginForm
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 import os
 
 
@@ -39,6 +41,12 @@ BOOK_FILE1 = os.path.join('static', 'books', "L.Tolstoi_tom_1.txt")
 BOOK_FILE2 = os.path.join('static', 'books', "igra-prestolov-248812.txt")
 
 
+@login_required
+def logout_user(request):
+    logout(request)
+    return redirect('login')
+
+
 def book_lev_tolskoi():
     with open(BOOK_FILE1, 'r') as file:
         return file.readlines()
@@ -49,6 +57,7 @@ def book_song_of_ice_and_fire():
         return file.readlines()
 
 
+@login_required
 def reed_book1(request):
     book_lines = book_lev_tolskoi()
     paginator = Paginator(book_lines, 30)
@@ -58,6 +67,7 @@ def reed_book1(request):
     return render(request, 'L.Tolstoi.html', {'context': lines_to_display, 'paginator': paginator})
 
 
+@login_required
 def reed_book2(request):
     book_lines = book_song_of_ice_and_fire()
     paginator = Paginator(book_lines, 30)
@@ -68,5 +78,6 @@ def reed_book2(request):
                   {'context': lines_to_display, 'paginator': paginator})
 
 
+@login_required
 def choosing_a_book(request):
     return render(request, "books.html")

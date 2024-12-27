@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for, flash
+from flask import Flask, request, render_template, redirect, url_for, flash, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm import Session
 from Flask.backend.db import get_db
@@ -13,6 +13,17 @@ app.config['SECRET_KEY'] = 'very Very very Secret key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
+
+def login_auth(f):
+    def wrap(*args, **kwargs):
+        if 'user_id' not in session:
+            flash("Вы должны войти в систему, чтобы получить доступ к этой странице.", "error")
+            return redirect(url_for('login_user'))
+        return f(*args, **kwargs)
+
+    wrap.__name__ = f.__name__
+    return wrap
 
 
 @app.route('/', methods=['GET'])
@@ -66,13 +77,20 @@ def login_user():
         db_session: Session = get_db()
         db_user = db_session.query(User).filter_by(email=user_data.email).first()
 
-        if not db_user or not check_password_hash(db_user.password, user_data.password):
-            flash("Неправильно введён email или пароль", "error")
-            return redirect(url_for('login_user'))
+        if db_user and check_password_hash(db_user.password, user_data.password):
+            session['user_id'] = db_user.id
+            return redirect(url_for('choosing_a_book'))
 
-        return redirect(url_for('choosing_a_book'))
+        flash("Неправильно введён email или пароль", "error")
+        return redirect(url_for('login_user'))
 
     return render_template('login.html')
+
+@app.route('/logout', methods=['POST'])
+def logout_user():
+    session.pop('user_id', None)
+    flash("Вы успешно вышли из системы", "success")
+    return redirect(url_for('login_user'))
 
 
 BOOK_FILE1 = "L.Tolstoi_tom_1.txt"
@@ -90,6 +108,7 @@ def book_song_of_ice_and_fire():
 
 
 @app.route("/war_and_peace", methods=["GET", "POST"])
+@login_auth
 def reed_book1():
     book_lines = book_lev_tolskoi()
     total_lines = len(book_lines)
@@ -107,6 +126,7 @@ def reed_book1():
 
 
 @app.route('/game_of_the_thrones', methods=["GET", "POST"])
+@login_auth
 def reed_book2():
     book_lines = book_song_of_ice_and_fire()
     total_lines = len(book_lines)
@@ -124,9 +144,10 @@ def reed_book2():
 
 
 @app.route('/books', methods=['GET', 'POST'])
+@login_auth
 def choosing_a_book():
     return render_template('books.html')
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

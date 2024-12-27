@@ -12,6 +12,7 @@
     </style>
 </head>
 <body>
+    <form method="POST" action="/logout">
         <div class="container ">
         <h1>Л.Н.Толстой "Война и Мир"</h1>
             {% for line in lines %}
@@ -22,5 +23,6 @@
         <div class="pagination">
             {{ pagination.links }}
         </div>
+    </form>
 </body>
 </html>

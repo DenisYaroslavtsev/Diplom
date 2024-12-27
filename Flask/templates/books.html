@@ -3,20 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Выбор книги для чтения</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <form method="POST">
-    <p align="center">
-        <a href="/war_and_peace">
-        <img src="{{ url_for('static', filename='images/scale_1200.jpg') }}" class="image" /></a>
-        <a href="/game_of_the_thrones">
-        <img src="{{ url_for('static', filename='images/_igra-prestolov.jpg') }}" class="image" />
-        </a>
-    </p>
-    </form>
+    <div class="container">
+        <form method="POST" action="/logout">
+            <div class="text-right">
+                <button type="submit" class="btn btn-danger">Выход</button>
+            </div>
+            <p class="text-center">
+                <a href="/war_and_peace">
+                    <img src="{{ url_for('static', filename='images/scale_1200.jpg') }}" class="image" />
+                </a>
+                <a href="/game_of_the_thrones">
+                    <img src="{{ url_for('static', filename='images/_igra-prestolov.jpg') }}" class="image" />
+                </a>
+            </p>
+        </form>
+    </div>
     <style>
-    .image { width: 200px;
-             height: 300px; }
+        .image {
+            width: 200px;
+            height: 300px;
+        }
     </style>
 </body>
 </html>

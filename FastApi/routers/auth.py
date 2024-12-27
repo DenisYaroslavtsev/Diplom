@@ -59,7 +59,7 @@ async def login_user(request: Request, db: Annotated[Session, Depends(get_db)]):
         return templates.TemplateResponse("login.html",
                                           {"request": request, "error": "Неправильно введён email или пароль!"})
 
-    return RedirectResponse(url="/books/select_book", status_code=303)
+    return RedirectResponse(url='/books/select_book', status_code=303)
 
 
 @router.get('/register')

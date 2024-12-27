@@ -5,7 +5,7 @@ from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="FastApi/static"), name="static")
-app.mount("/static", StaticFiles(directory="FastApi/static/images"), name="image")
+app.mount("/static", StaticFiles(directory="FastApi/static/images"), name="images")
 
 
 @app.get('/')

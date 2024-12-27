@@ -5,9 +5,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Выбор книги для чтения</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <form method="POST">
+    <form method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <div class="text-right">
+                <button type="submit" class="btn btn-danger">Выход</button>
+        </div>
         <p align="center">
             <a href="/books/war_and_peace">
             <img src="{% static 'images/scale_1200.jpg' %}" width="200" height="300"></a>
