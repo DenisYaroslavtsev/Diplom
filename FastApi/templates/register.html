@@ -1,12 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Регистрация</title>
-    <link rel="stylesheet" type="text/css" href="/static/regis.css">
-    <link rel="stylesheet" type="text/css" href="/static/error.css">
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}Регистрация{% endblock %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="/static/regis.css">
+<link rel="stylesheet" type="text/css" href="/static/error.css">
+{% endblock %}
+{% block content %}
     <form action="/auth/register" method="post">
         <div class="container">
             <label for="username">Логин:</label>
@@ -31,5 +30,4 @@
     {% if error %}
         <div class="error">{{ error }}</div>
     {% endif %}
-</body>
-</html>
+{% endblock %}

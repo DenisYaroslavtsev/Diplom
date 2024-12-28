@@ -1,10 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Выбор книги для чтения</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}Выбор книги для чтения{% endblock %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="/static/header.css">
+{% endblock %}
+{% block header %}
+    <form action="/auth/logout" method="POST" style="text-align: right">
+        <button type="submit">Выход</button>
+    </form>
+{% endblock %}
+{% block content %}
     <form action="/books/select_book" method="POST">
         <p align="center">
             <a href="/books/war_and_peace">
@@ -14,10 +19,8 @@
             </a>
         </p>
     </form>
-
-    <style>
+{% endblock %}
+{% block size %}
     .image { width: 200px;
-             height: 300px; }
-    </style>
-</body>
-</html>
+    height: 300px; }
+{% endblock %}

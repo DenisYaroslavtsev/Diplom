@@ -1,25 +1,23 @@
+{% extends "base.html" %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Выбор книги для чтения</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-    <form method="POST" action="{% url 'logout' %}">
+{% block title %}Выбор книги для чтения{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/header.css'%}" type="text/css">
+{% endblock %}
+{% block header %}
+    <form action="{% url 'logout' %}" method="POST"  style="text-align: right">
         {% csrf_token %}
-        <div class="text-right">
-                <button type="submit" class="btn btn-danger">Выход</button>
-        </div>
-        <p align="center">
-            <a href="/books/war_and_peace">
-            <img src="{% static 'images/scale_1200.jpg' %}" width="200" height="300"></a>
-            <a href="/books/game_of_the_thrones">
-            <img src="{% static 'images/_igra-prestolov.jpg' %}" width="200" height="300">
-            </a>
-        </p>
+        <button type="submit">Выход</button>
     </form>
-</body>
-</html>
+
+{% endblock %}
+{% block content %}
+    <p align="center">
+        <a href="/books/war_and_peace">
+            <img src="{% static 'images/scale_1200.jpg' %}" width="200" height="300"></a>
+        <a href="/books/game_of_the_thrones">
+            <img src="{% static 'images/_igra-prestolov.jpg' %}" width="200" height="300">
+        </a>
+    </p>
+{% endblock %}

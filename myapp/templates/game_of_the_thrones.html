@@ -1,20 +1,29 @@
+{% extends "base.html" %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>"Песнь льда и огня2.Дж. Мартин.(Книга 1)</title>
+{% block title %}Песнь Льда и Огня. Книга 1{% endblock %}
+{% block css %}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'css/pag.css'%}" type="text/css">
-    <style>
-        pre {
-            word-wrap: break-word;
-            white-space: pre-wrap;
-        }
-    </style>
-</head>
-<body>
+    <link rel="stylesheet" href="{% static 'css/header.css'%}" type="text/css">
+{% endblock %}
+{% block style %}
+    pre {
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    }
+{% endblock %}
+{% block header %}
+    <form action="{% url 'books' %}" method="GET" style="text-align: right">
+        <button type="submit">Назад к выбору книг</button>
+    </form>
+
+    <form action="{% url 'logout' %}" method="POST"  style="text-align: right">
+        {% csrf_token %}
+        <button type="submit">Выход</button>
+    </form>
+{% endblock %}
+{% block content %}
     <h1>Дж. Мартин "Песнь льда и огня" Книга 1 - Игра престолов</h1>
     <div>
         {% for line in context %}
@@ -51,5 +60,4 @@
         {% endif %}
     </ul>
     <p><span>Страница {{ context.number }} из {{ context.paginator.num_pages }}</span></p>
-</body>
-</html>
+{% endblock %}

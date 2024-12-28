@@ -1,18 +1,25 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Песнь льда и огня. Книга 1</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        pre {
-            word-wrap: break-word;
-            white-space: pre-wrap;
-        }
-    </style>
-</head>
-<body>
-    <form method="POST" action="/logout">
+{% extends "base.html" %}
+
+{% block title %}Песнь Льда и Огня. Книга 1{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename= 'header.css') }}">
+{% endblock %}
+{% block header %}
+    <form action="/books" method="GET" style="text-align: right;">
+        <button type="submit">Назад к выбору книги</button>
+    </form>
+    <form action="/logout" method="POST"  style="text-align: right">
+        <button type="submit">Выход</button>
+    </form>
+{% endblock %}
+{% block style %}
+    pre {
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    }
+{% endblock %}
+{% block content %}
         <div class="container ">
             <h1>Цикл Песни Льда и Пламени. Книга 1 - Игра престолов</h1>
                 {% for line in lines %}
@@ -22,6 +29,4 @@
             <div class="pagination">
                 {{ pagination.links }}
             </div>
-    </form>
-</body>
-</html>
+{% endblock %}

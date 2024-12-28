@@ -1,17 +1,25 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Лев Николаевич Толстой "Война и мир"</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        pre {
-            word-wrap: break-word;
-            white-space: pre-wrap;
-        }
-    </style>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}Лев Николаевич Толстой "Война и мир"{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/static/header.css">
+{% endblock %}
+{% block header %}
+    <form action="/books/select_book" method="GET" style="margin-left: 10px;">
+            <button type="submit">Назад к выбору книги</button>
+    </form>
+    <form action="/auth/logout" method="POST" style="margin-left: 10px;">
+        <button type="submit">Выход</button>
+    </form>
+{% endblock %}
+{% block style %}
+    pre {
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    }
+{% endblock %}
+{% block content %}
     <form action="/books/war_and_peace" method="POST">
         <div class="container "></div>
         <h1>Л.Н.Толстой "Война и Мир"</h1>
@@ -45,5 +53,4 @@
             {% endif %}
         </ul>
     </form>
-</body>
-</html>
+{% endblock %}

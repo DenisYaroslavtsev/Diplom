@@ -1,18 +1,26 @@
-from fastapi import APIRouter, Depends, status, Request
+from fastapi import APIRouter, Cookie, Depends, HTTPException, Request, status
 from fastapi.responses import HTMLResponse, RedirectResponse
-from sqlalchemy.orm import Session
-from FastApi.backend.db_depends import get_db
-from typing import Annotated
-from passlib.context import CryptContext
-from FastApi.models.user import User
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.templating import Jinja2Templates
+from sqlalchemy.orm import Session
+from passlib.context import CryptContext
 from datetime import date
-from FastApi.routers.book import *
+from typing import Annotated
+from FastApi.backend.db_depends import get_db
+from FastApi.models.user import User
 
 templates = Jinja2Templates(directory="FastApi/templates")
 router = APIRouter(prefix='/auth', tags=['Auth'])
 
 pass_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+security = HTTPBasic()
+
+
+def verify_user(credentials: HTTPBasicCredentials, db: Session):
+    user = db.query(User).filter(User.email == credentials.username).first()
+    if user and pass_context.verify(credentials.password, user.password):
+        return user
+    return None
 
 
 @router.post('/register')
@@ -58,8 +66,15 @@ async def login_user(request: Request, db: Annotated[Session, Depends(get_db)]):
     if not db_user or not pass_context.verify(password, db_user.password):
         return templates.TemplateResponse("login.html",
                                           {"request": request, "error": "Неправильно введён email или пароль!"})
+    request.session['user_id'] = db_user.id
 
     return RedirectResponse(url='/books/select_book', status_code=303)
+
+
+@router.post('/logout')
+async def logout_user(request: Request):
+    request.session.pop('user_id', None)
+    return RedirectResponse(url='/auth/login', status_code=303)
 
 
 @router.get('/register')

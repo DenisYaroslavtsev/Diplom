@@ -1,12 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Регистрация</title>
+{% extends "base.html" %}
+
+{% block title %}Регистрация{% endblock %}
+{% block css %}
     <link rel="stylesheet" href="{{ url_for('static', filename= 'regis.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename= 'error.css') }}">
-</head>
-<body>
+{% endblock %}
+{% block content %}
     <form action="/register" method="post">
         <div class="container">
             <label for="username">Логин:</label>
@@ -35,5 +34,4 @@
             {% endfor %}
         {% endif %}
     {% endwith %}
-</body>
-</html>
+{% endblock %}

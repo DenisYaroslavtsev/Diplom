@@ -1,9 +1,8 @@
-from typing import Annotated
-from fastapi import APIRouter, Request, Depends
+from fastapi import APIRouter, Request
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import HTMLResponse
 from fastapi_pagination import Page, add_pagination
 import os
+
 
 router = APIRouter(prefix='/books', tags=['books'])
 templates = Jinja2Templates(directory="FastApi/templates")
@@ -26,6 +25,11 @@ def book_song_of_ice_and_fire():
 
 @router.get("/war_and_peace")
 def reed_book1(request: Request, page: int = 1):
+    user_id = request.session.get('user_id')
+    if user_id is None:
+        error_message = 'Вы должны быть авторизованы, чтобы получить доступ к этой странице.'
+        return templates.TemplateResponse("login.html", {"request": request,
+                                                         "error": error_message})
     book_lines = book_lev_tolskoi()
     total_lines = len(book_lines)
     per_page = 30
@@ -42,6 +46,11 @@ def reed_book1(request: Request, page: int = 1):
 
 @router.get('/game_of_the_thrones')
 def reed_book2(request: Request, page: int = 1):
+    user_id = request.session.get('user_id')
+    if user_id is None:
+        error_message = 'Вы должны быть авторизованы, чтобы получить доступ к этой странице.'
+        return templates.TemplateResponse("login.html", {"request": request,
+                                                         "error": error_message})
     book_lines = book_song_of_ice_and_fire()
     total_lines = len(book_lines)
     per_page = 30
@@ -57,7 +66,13 @@ def reed_book2(request: Request, page: int = 1):
 
 
 @router.get('/select_book')
-async def choosing_a_book(request: Request) -> HTMLResponse:
+async def choosing_a_book(request: Request):
+    user_id = request.session.get('user_id')
+    if user_id is None:
+        error_message = 'Вы должны быть авторизованы, чтобы получить доступ к этой странице.'
+        return templates.TemplateResponse("login.html", {"request": request,
+                                                         "error": error_message})
+
     return templates.TemplateResponse("books.html", {"request": request})
 
 
