@@ -52,7 +52,6 @@ async def register_user(request: Request, db: Annotated[Session, Depends(get_db)
     db_user = User(username=username, password=hashed_password, email=email, birth_day=birth_date)
     db.add(db_user)
     db.commit()
-    db.refresh(db_user)
 
     return RedirectResponse(url="/auth/login", status_code=303)
 
