@@ -10,6 +10,5 @@ def get_db():
     return SessionLocal()
 
 
-
 class Base(DeclarativeBase):
     pass

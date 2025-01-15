@@ -3,7 +3,6 @@ from fastapi.templating import Jinja2Templates
 from fastapi_pagination import Page, add_pagination
 import os
 
-
 router = APIRouter(prefix='/books', tags=['books'])
 templates = Jinja2Templates(directory="FastApi/templates")
 

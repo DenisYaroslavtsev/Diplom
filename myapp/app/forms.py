@@ -23,4 +23,3 @@ class SignUpForm(UserCreationForm):
 class LoginForm(AuthenticationForm):
     email = forms.CharField(label='Email')
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput)
-

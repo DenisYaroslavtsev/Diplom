@@ -13,6 +13,7 @@ app.mount("/static", StaticFiles(directory="FastApi/static/images"), name="image
 async def home_page():
     return RedirectResponse(url='/auth/register')
 
+
 app.add_middleware(SessionMiddleware, secret_key="veryVerysecretKey")
 app.include_router(auth.router)
 app.include_router(book.router)
