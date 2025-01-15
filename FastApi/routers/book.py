@@ -1,3 +1,13 @@
+"""
+Модуль для чтения книг
+
+Данный модуль представляет API для чтения книг Л. Толстого "Война и Мир" и Дж. Мартина "Песнь льда и пламени".
+Книги разбиты на страницы (каждая из которых содержит по 30 строк), которые можно листать с помощью пагинации
+Доступ к книгам есть только у авторизованных пользователей
+
+Создаёт роутеры для страниц: "выбор книги", книги "Война и мир", книги "Песнь льда и пламени"
+"""
+
 from fastapi import APIRouter, Request
 from fastapi.templating import Jinja2Templates
 from fastapi_pagination import Page, add_pagination
@@ -13,17 +23,33 @@ BOOK_FILE2 = os.path.join(BOOK_DIR, "igra-prestolov-248812.txt")
 
 
 def book_lev_tolskoi():
+    """
+    Открывает файл с содержанием книги "Война и Мир" и считывает содержание построчно
+    """
     with open(BOOK_FILE1, 'r') as file:
         return file.readlines()
 
 
 def book_song_of_ice_and_fire():
+    """
+    Открывает файл с содержанием книги "Песнь льда и пламени" и считывает содержание построчно
+    """
     with open(BOOK_FILE2, 'r') as file:
         return file.readlines()
 
 
 @router.get("/war_and_peace")
 def reed_book1(request: Request, page: int = 1):
+    """
+    Обрабатывает запрос пользователя на чтение книги "Война и мир"
+
+    :param request: Объект запроса, содержащий данные сессии
+    :param page: Задаём параметр номера страницы по умолчанию 1
+    :return: Ответ с отображением страницы с книгой или перенапралвнеие на страницу входа
+
+    Создаёт пагинацию книги и указываем параметры для пагинации.
+    Разбивает страницу по 30 строк
+    """
     user_id = request.session.get('user_id')
     if user_id is None:
         error_message = 'Вы должны быть авторизованы, чтобы получить доступ к этой странице.'
@@ -45,6 +71,16 @@ def reed_book1(request: Request, page: int = 1):
 
 @router.get('/game_of_the_thrones')
 def reed_book2(request: Request, page: int = 1):
+    """
+    Обрабатывает запрос пользователя на чтение книги "Песнь льда и пламени"
+
+    :param request: Объект запроса, содержащий данные сессии
+    :param page: Задаём параметр номера страницы по умолчанию 1
+    :return: Ответ с отображением страницы с книгой или перенапралвнеие на страницу входа
+
+    Создаёт пагинацию книги и указываем параметры для пагинации.
+    Разбивает страницу по 30 строк
+    """
     user_id = request.session.get('user_id')
     if user_id is None:
         error_message = 'Вы должны быть авторизованы, чтобы получить доступ к этой странице.'
@@ -66,6 +102,9 @@ def reed_book2(request: Request, page: int = 1):
 
 @router.get('/select_book')
 async def choosing_a_book(request: Request):
+    """
+    Отображает страницу выбора книг, если пользователь не авторизован, то доступ будет закрыт
+    """
     user_id = request.session.get('user_id')
     if user_id is None:
         error_message = 'Вы должны быть авторизованы, чтобы получить доступ к этой странице.'

@@ -1,4 +1,15 @@
-from fastapi import APIRouter, Cookie, Depends, HTTPException, Request, status
+"""
+Модуль для управления аутетификацией пользователей
+
+Включает в себя функции регистрации, входа и выхода, а так же проверку пользователей
+
+В данном модуле используется SQLAlchemy для работы с баззой данных, Jinja2 для рендеринга HTML - шаблонов,
+HTTPBasic для базовой аутетификации пользователя, Cryptcontext шифрует пароль пользователя
+
+Создаёт роутеры для страниц: входа/выхода, регистрации пользователя
+"""
+
+from fastapi import APIRouter, Depends, Request, status
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.templating import Jinja2Templates
@@ -17,6 +28,13 @@ security = HTTPBasic()
 
 
 def verify_user(credentials: HTTPBasicCredentials, db: Session):
+    """
+    Проверяет пользователя по email и паролю
+
+    :param credentials: Объект HTTPBasicCredentials, служит для работы с базовой аутетификацией
+    :param db: ссесия БД для выполнения запросов
+    :return: Если аутетификация успешна, то возвращаем пользователя, если нет - то None
+    """
     user = db.query(User).filter(User.email == credentials.username).first()
     if user and pass_context.verify(credentials.password, user.password):
         return user
@@ -25,6 +43,15 @@ def verify_user(credentials: HTTPBasicCredentials, db: Session):
 
 @router.post('/register')
 async def register_user(request: Request, db: Annotated[Session, Depends(get_db)]):
+    """
+    Регистрирует нового пользователя
+    Проверяет уникальность логина и email, а так же совпадение паролей.
+    Если логин/email или пароли не прошли проверку, выводит ошибку
+
+    :param request: Запрос с данными формы
+    :param db: Сессия БД
+    :return: Редирект на страницу входа или на шаблон с ошибкой
+    """
     form_data = await request.form()
     username = form_data.get('username')
     password = form_data.get('password')
@@ -58,6 +85,17 @@ async def register_user(request: Request, db: Annotated[Session, Depends(get_db)
 
 @router.post('/login')
 async def login_user(request: Request, db: Annotated[Session, Depends(get_db)]):
+    """
+    Аутетиицирует пользователя по email и паролю
+
+    Проверяет налицие пользователя в БД и корректность пароля
+
+    Сохраняет ID пользователя в сессии
+
+    :param request: Запрос с данными формы
+    :param db: Сессия БД
+    :return: Редирект на страницу выбора книги или на шаблон с ошибкой
+    """
     form_data = await request.form()
     email = form_data.get('email')
     password = form_data.get('password')
@@ -72,15 +110,26 @@ async def login_user(request: Request, db: Annotated[Session, Depends(get_db)]):
 
 @router.post('/logout')
 async def logout_user(request: Request):
+    """
+    Выход пользователя из системы
+
+    Удаляет ID пользователя из сессии
+    """
     request.session.pop('user_id', None)
     return RedirectResponse(url='/auth/login', status_code=303)
 
 
 @router.get('/register')
 async def get_register_page(request: Request) -> HTMLResponse:
+    """
+    Вовзращает страницу регистрации
+    """
     return templates.TemplateResponse("register.html", {"request": request})
 
 
 @router.get('/login')
 async def get_login_page(request: Request) -> HTMLResponse:
+    """
+    Возвращает страницу входа
+    """
     return templates.TemplateResponse("login.html", {"request": request})

@@ -1,3 +1,11 @@
+"""
+Модуль для запуска приложения FastApi
+
+Данный модуль создаёт экземпляр FastApi, настраивает статические файлы, добавляет middleware для работы с сесиями и
+подключает маршруты авторизации и выбора книги для чтения.
+Задаёт начальную страницу регистрации по маршруту '/'
+"""
+
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 from FastApi.routers import auth, book
@@ -11,6 +19,9 @@ app.mount("/static", StaticFiles(directory="FastApi/static/images"), name="image
 
 @app.get('/')
 async def home_page():
+    """
+    Указывает на стартовую страницу(регистрация)
+    """
     return RedirectResponse(url='/auth/register')
 
 
