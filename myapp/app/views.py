@@ -1,3 +1,7 @@
+"""
+Модуль для управления аутетификацией пользователя и предоставления доступа к страницам выбора и чтения книг
+"""
+
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from .forms import SignUpForm, LoginForm
@@ -9,6 +13,11 @@ import os
 
 
 def register_user(request):
+    """
+    Функция для регистрации пользователя
+    :return: Если регистрация прошла успешно, перенаправляет на страницу входа,
+     если же нет, то обновляет страницу регистрации
+    """
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
@@ -21,6 +30,10 @@ def register_user(request):
 
 
 def login_user(request):
+    """
+    Функция для аутетификации пользователя
+    :return: Если вход прошёл успешно, то перенаправляет на страницу выбора книги
+    """
     form = LoginForm(data=request.POST or None)
     if request.method == 'POST':
         if form.is_valid():
@@ -42,22 +55,38 @@ BOOK_FILE2 = os.path.join('static', 'books', "igra-prestolov-248812.txt")
 
 @login_required
 def logout_user(request):
+    """
+    Функция для выхода пользователя из системы
+    :return: Перенаправляет на страницу входа
+    """
     logout(request)
     return redirect('login')
 
 
 def book_lev_tolskoi():
+    """
+    Открывает файл с содержанием книги "Война и Мир" и считывает содержание построчно
+    """
     with open(BOOK_FILE1, 'r') as file:
         return file.readlines()
 
 
 def book_song_of_ice_and_fire():
+    """
+    Открывает файл с содержанием книги "Песнь льда и пламени" и считывает содержание построчно
+    """
     with open(BOOK_FILE2, 'r') as file:
         return file.readlines()
 
 
 @login_required
 def reed_book1(request):
+    """
+    Обрабатывает запрос пользователя на чтение книги "Война и мир"
+
+    Создаёт пагинацию книги и указываем параметры для пагинации
+    Разбивает страницу по 30 строк
+    """
     book_lines = book_lev_tolskoi()
     paginator = Paginator(book_lines, 30)
     page_number = request.GET.get('page')
@@ -68,6 +97,12 @@ def reed_book1(request):
 
 @login_required
 def reed_book2(request):
+    """
+    Обрабатывает запрос пользователя на чтение книги "Песнь льда и пламени"
+
+    Создаёт пагинацию книги и указываем параметры для пагинации
+    Разбивает страницу по 30 строк
+    """
     book_lines = book_song_of_ice_and_fire()
     paginator = Paginator(book_lines, 30)
     page_number = request.GET.get('page', 1)
@@ -79,4 +114,7 @@ def reed_book2(request):
 
 @login_required
 def choosing_a_book(request):
+    """
+    Функция для вывода страницы выбора книги
+    """
     return render(request, "books.html")
