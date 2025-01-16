@@ -11,7 +11,7 @@ from datetime import date
 
 class CreateUser(BaseModel):
     """
-    Модель для создания нового пользователя
+    Модель для входа пользователя
 
     Атрибуты:
         email (str): Электронная почта пользователя
@@ -23,7 +23,7 @@ class CreateUser(BaseModel):
 
 class UserResponse(BaseModel):
     """
-    Модель для ответа с данными пользователя
+    Модель для регистрации пользователя
 
     Атрибуты:
         username (str): Имя пользователя
